@@ -9,7 +9,10 @@ lua54 'yes'
 
 shared_script '@ox_lib/init.lua'
 
-client_script "client/main.lua"
+client_scripts {
+  'client/main.lua',
+  'client/nui.lua'
+}
 server_scripts {
   '@oxmysql/lib/MySQL.lua',
   'server/main.lua',

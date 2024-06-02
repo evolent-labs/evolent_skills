@@ -1,25 +1,13 @@
-local visible = false
+---@param skillName string
+local function getSkillLevel(skillName)
+    return lib.callback.await('evolent_skills:server:getSkillLevel', false, skillName)
+end
 
-RegisterCommand('skills', function()
-    visible = not visible
+exports('getSkillLevel', getSkillLevel)
 
-    local data = {
-        visible = visible,
-        playerSkills = visible and lib.callback.await('evolent_skills:server:getSkills') or nil
-    }
+---@param skillName string
+local function getSkillXp(skillName)
+    return lib.callback.await('evolent_skills:server:getSkillXp', false, skillName)
+end
 
-    SendNUIMessage({
-        action = 'showSkills',
-        data = data
-    })
-
-    SetNuiFocus(visible, visible)
-end)
-
-RegisterNUICallback('hideSkills', function(_, cb)
-    visible = false
-    SetNuiFocus(false, false)
-    cb({})
-end)
-
-RegisterKeyMapping('skills', 'Show Skills View', 'keyboard', 'j')
+exports('getSkillXp', getSkillXp)

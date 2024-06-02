@@ -47,3 +47,11 @@ lib.callback.register('evolent_skills:server:getSkills', function(source)
     end
     return skillsData
 end)
+
+lib.callback.register('evolent_skills:server:getSkillLevel', function(source, skillName)
+    return skills.getSkillLevel(source, skillName)
+end)
+
+lib.callback.register('evolent_skills:server:getSkillXp', function(source, skillName)
+    return skills.getSkillXp(source, skillName)
+end)

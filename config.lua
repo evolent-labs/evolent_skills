@@ -9,6 +9,9 @@ return {
     ---@type 'qb'|'esx'
     Framework = 'qb',
 
+    ---@type string
+    UIHotkey = 'J',
+
     --- @type table<string, Skill>
     Skills = {
         driving = {
