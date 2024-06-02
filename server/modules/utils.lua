@@ -51,4 +51,51 @@ function utils.getXpRangeForLevel(level, skillName)
     return minXp, maxXp
 end
 
+---@param source number
+---@param skill string
+---@param target number
+---@param value number
+---@param isLevel boolean
+function utils.validateSkillCommand(source, skill, target, value, isLevel)
+    if not conf.Skills[skill] then
+        lib.notify(source, {
+            title = 'Skills',
+            description = ('Skill %s does not exist'):format(skill),
+            type = 'error'
+        })
+        return false
+    end
+
+    if not DoesPlayerExist(target) then
+        lib.notify(source, {
+            title = 'Skills',
+            description = ('Player with the ID of %d does not exist'):format(target),
+            type = 'error'
+        })
+        return false
+    end
+
+    if isLevel then
+        if type(value) ~= 'number' or value <= 0 or value > conf.Skills[skill].maxLevel then
+            lib.notify(source, {
+                title = 'Skills',
+                description = ('Level must be a number between 1 and %d'):format(conf.Skills[skill].maxLevel),
+                type = 'error'
+            })
+            return false
+        end
+    else
+        if type(value) ~= 'number' or value <= 0 then
+            lib.notify(source, {
+                title = 'Skills',
+                description = 'Amount of XP must be a positive number',
+                type = 'error'
+            })
+            return false
+        end
+    end
+
+    return true
+end
+
 return utils

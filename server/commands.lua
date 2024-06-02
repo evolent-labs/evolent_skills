@@ -1,4 +1,5 @@
 local skills = require 'server.modules.skills'
+local utils = require 'server.modules.utils'
 
 lib.addCommand('addxp', {
     help = 'Add XP to a player\'s skill',
@@ -22,17 +23,19 @@ lib.addCommand('addxp', {
     restricted = 'group.admin'
 }, function(source, args)
     local skill = args.skill
-    local skillsCache = skills.getAllSkills(source)
+    local amount = args.amount
+    local target = args.target
 
-    if not skillsCache[skill] then
-        return lib.notify(source, {
-            title = 'Skills',
-            description = ('Skill %s does not exist'):format(skill),
-            type = 'error'
-        })
+    if not utils.validateSkillCommand(target, skill, target, amount, false) then
+        return
     end
 
-    skills.addXp(source, skill, args.amount)
+    skills.addXp(target, skill, amount)
+    lib.notify(source, {
+        title = 'Skills',
+        description = ('Added %d XP to %s for %s skill'):format(amount, GetPlayerName(target), skill),
+        type = 'success'
+    })
 end)
 
 lib.addCommand('removexp', {
@@ -57,17 +60,19 @@ lib.addCommand('removexp', {
     restricted = 'group.admin'
 }, function(source, args)
     local skill = args.skill
-    local skillsCache = skills.getAllSkills(source)
+    local amount = args.amount
+    local target = args.target
 
-    if not skillsCache[skill] then
-        return lib.notify(source, {
-            title = 'Skills',
-            description = ('Skill %s does not exist'):format(skill),
-            type = 'error'
-        })
+    if not utils.validateSkillCommand(target, skill, target, amount, false) then
+        return
     end
 
-    skills.removeXp(source, skill, args.amount)
+    skills.removeXp(target, skill, amount)
+    lib.notify(source, {
+        title = 'Skills',
+        description = ('Removed %d XP from %s for %s skill'):format(amount, GetPlayerName(target), skill),
+        type = 'success'
+    })
 end)
 
 lib.addCommand('setlevel', {
@@ -92,15 +97,17 @@ lib.addCommand('setlevel', {
     restricted = 'group.admin'
 }, function(source, args)
     local skill = args.skill
-    local skillsCache = skills.getAllSkills(source)
+    local level = args.level
+    local target = args.target
 
-    if not skillsCache[skill] then
-        return lib.notify(source, {
-            title = 'Skills',
-            description = ('Skill %s does not exist'):format(skill),
-            type = 'error'
-        })
+    if not utils.validateSkillCommand(target, skill, target, level, true) then
+        return
     end
 
-    skills.setSkillLevel(source, skill, args.level)
+    skills.setSkillLevel(target, skill, level)
+    lib.notify(source, {
+        title = 'Skills',
+        description = ('Set %s skill to level %d for %s'):format(skill, level, GetPlayerName(target)),
+        type = 'success'
+    })
 end)
