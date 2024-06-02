@@ -4,15 +4,17 @@ local conf = require 'config'
 
 local framework = conf.Framework
 
-local validFrameworks = {qb = true, esx = true}
+local validFrameworks = { qb = true, esx = true }
 if not validFrameworks[framework] then
     error(('Framework \'%s\' is not supported.'):format(framework))
 end
 
 local onLoadedEvent = framework == 'qb' and 'QBCore:Server:OnPlayerLoaded' or 'esx:playerLoaded'
 
----@diagnostic disable-next-line
-RegisterNetEvent(onLoadedEvent, skills.playerLoaded)
+RegisterNetEvent(onLoadedEvent, function()
+    ---@diagnostic disable-next-line
+    skills.playerLoaded(source)
+end)
 
 AddEventHandler('onServerResourceStart', function(resourceName)
     if resourceName ~= GetCurrentResourceName() then return end

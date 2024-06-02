@@ -166,8 +166,6 @@ exports('hasSkill', skills.hasSkill)
 
 ---@param source number
 function skills.playerLoaded(source)
-    if not isValidSource(source) then return end
-
     local charId = framework.getCharacterIdentifier(source)
     if not charId then return end
 
