@@ -72,8 +72,13 @@ function skills.removeXp(source, skillName, xpAmount)
     if not isValidXpAmount(xpAmount) then return end
 
     local charId = framework.getCharacterIdentifier(source)
-    db.removeXp(charId, skillName, xpAmount)
-    updateSkillCache(source, skillName, -xpAmount)
+
+    local currentXp = skillsCache[source][skillName].xp
+    local newXpAmount = math.max(0, currentXp - xpAmount)
+    local xpRemoved = currentXp - newXpAmount
+
+    db.removeXp(charId, skillName, xpRemoved)
+    updateSkillCache(source, skillName, -xpRemoved)
 end
 
 exports('removeXp', skills.removeXp)
