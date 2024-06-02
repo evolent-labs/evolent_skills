@@ -14,7 +14,7 @@ return {
         driving = {
             label = 'Driving',
             baseXp = 120,
-            nextLevelMultiplier = 1.1,
+            nextLevelMultiplier = 1.4,
             maxLevel = 100,
             icon = 'fas fa-car',
             color = '#AFC1FF'
@@ -22,7 +22,7 @@ return {
         shooting = {
             label = 'Shooting',
             baseXp = 120,
-            nextLevelMultiplier = 1.2,
+            nextLevelMultiplier = 1.5,
             maxLevel = 150,
             icon = 'fa-solid fa-gun',
             color = '#ff5959'
