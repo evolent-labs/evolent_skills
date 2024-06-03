@@ -26,7 +26,7 @@ git clone https://github.com/evolent-labs/evolent_skills.git
 
 ## Preview Video
 
-<iframe src="https://streamable.com/e/q7m42r" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+Watch the preview video [here](https://streamable.com/q7m42r).
 
 ## Contributing
 We welcome contributions to Evolent Skills! If you would like to contribute, please follow these steps:
