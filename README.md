@@ -28,6 +28,11 @@ git clone https://github.com/evolent-labs/evolent_skills.git
 
 Watch the preview video [here](https://streamable.com/q7m42r).
 
+## To-Do List
+
+- [ ] Add ox_lib logging functionality
+- [ ] Add some out-the-box skill implementations
+
 ## Contributing
 We welcome contributions to Evolent Skills! If you would like to contribute, please follow these steps:
 
