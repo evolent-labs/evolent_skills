@@ -23,10 +23,11 @@ jobs:
         pnpm install
         pnpm run build
 
-    - name: Copy build files to release directory
+    - name: Prepare release directory
       run: |
         mkdir -p release-package/web/build
         cp -r web/build/* release-package/web/build/
+        find . -maxdepth 1 -mindepth 1 ! -name 'web' -exec cp -r {} release-package/ \;
 
     - name: Zip the release package
       run: |
@@ -45,7 +46,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ env.RELEASE_TAG }}
-        release_name: Release ${{ env.RELEASE_TAG }}
+        release_name: "Release - ${{ env.RELEASE_TAG }}"
         draft: false
         prerelease: false
 
