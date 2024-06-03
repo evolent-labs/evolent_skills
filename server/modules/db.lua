@@ -40,4 +40,15 @@ function db.resetSkill(charId, skillName)
     MySQL.prepare('UPDATE player_skills SET xp = 0 WHERE char_id = ? AND skill_name = ?', { charId, skillName })
 end
 
+function db.ensurePlayerSkillsTable()
+    MySQL.query.await([[
+        CREATE TABLE IF NOT EXISTS player_skills (
+            char_id VARCHAR(255) NOT NULL,
+            skill_name VARCHAR(100) NOT NULL,
+            xp INT DEFAULT 0,
+            PRIMARY KEY (char_id, skill_name)
+        )
+    ]])
+end
+
 return db

@@ -1,6 +1,7 @@
 local skills = require 'server.modules.skills'
 local utils = require 'server.modules.utils'
 local conf = require 'config'
+local db = require 'server.modules.db'
 
 local framework = conf.Framework
 
@@ -18,6 +19,8 @@ end)
 
 AddEventHandler('onServerResourceStart', function(resourceName)
     if resourceName ~= GetCurrentResourceName() then return end
+
+    db.ensurePlayerSkillsTable()
 
     local activePlayers = GetPlayers()
     for i = 1, #activePlayers do
