@@ -5,8 +5,6 @@ game 'gta5'
 author "Evolent"
 version '1.0.0'
 
-lua54 'yes'
-
 shared_script '@ox_lib/init.lua'
 
 client_scripts {
