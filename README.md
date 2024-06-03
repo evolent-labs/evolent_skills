@@ -42,6 +42,9 @@ We welcome contributions to Evolent Skills! If you would like to contribute, ple
 4. Push your changes to your fork.
 5. Submit a pull request to the main branch of this repository.
 6. Please make sure to follow the project's coding standards and include appropriate tests for your changes.
+ 
+## Discord
+Join our [discord](https://discord.gg/P9DpRUVqs9) server for support or if you want to provide feedback.
 
 ## License
 Evolent Skills is licensed under the GPLv3 License. See the [LICENSE](https://github.com/evolent-labs/evolent_skills/blob/main/LICENSE) file for more information.
