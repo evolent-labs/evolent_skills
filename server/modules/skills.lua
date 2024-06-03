@@ -6,11 +6,14 @@ local conf = require 'config'
 local skills = {}
 local skillsCache = {}
 
+---@param functionName string
+---@param message string
 local function _warn(functionName, message)
     local resource = GetInvokingResource()
     warn(string.format("[%s] %s: %s", resource, functionName, message))
 end
 
+---@param source number
 local function isValidSource(source)
     if not DoesPlayerExist(source) then
         _warn("isValidSource", "Invalid source: " .. tostring(source))
@@ -19,6 +22,7 @@ local function isValidSource(source)
     return true
 end
 
+---@param skillName string
 local function isValidSkillName(skillName)
     if type(skillName) ~= "string" or conf.Skills[skillName] == nil then
         _warn("isValidSkillName", "Invalid skill name: " .. tostring(skillName))
@@ -27,6 +31,7 @@ local function isValidSkillName(skillName)
     return true
 end
 
+---@param xpAmount number
 local function isValidXpAmount(xpAmount)
     if type(xpAmount) ~= "number" or xpAmount < 0 then
         _warn("isValidXpAmount", "Invalid XP amount: " .. tostring(xpAmount))
@@ -35,6 +40,7 @@ local function isValidXpAmount(xpAmount)
     return true
 end
 
+---@param level number
 local function isValidLevel(level)
     if type(level) ~= "number" or level <= 0 then
         _warn("isValidLevel", "Invalid level: " .. tostring(level))
@@ -43,6 +49,9 @@ local function isValidLevel(level)
     return true
 end
 
+---@param source number
+---@param skillName string
+---@param xpAmount number
 local function updateSkillCache(source, skillName, xpAmount)
     skillsCache[source][skillName].xp = skillsCache[source][skillName].xp + xpAmount
     skillsCache[source][skillName].level = utils.calculateLevel(skillsCache[source][skillName].xp, skillName)

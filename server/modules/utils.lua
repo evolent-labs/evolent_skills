@@ -2,6 +2,7 @@ local conf = require 'config'
 
 local utils = {}
 
+---@param skillName string
 local function precomputeXpRequirements(skillName)
     local skillConfig = conf.Skills[skillName]
     if not skillConfig then
@@ -25,6 +26,8 @@ for skillName in pairs(conf.Skills) do
     utils.xpTables[skillName] = precomputeXpRequirements(skillName)
 end
 
+---@param xpAmount number
+---@param skillName string
 function utils.calculateLevel(xpAmount, skillName)
     local xpTable = utils.xpTables[skillName]
     local level = 1
