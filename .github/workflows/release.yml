@@ -23,21 +23,17 @@ jobs:
         pnpm install
         pnpm run build
 
-    - name: Prepare release directory
+    - name: Prepare release package
       run: |
-        mkdir -p release-package/web/build
-        cp -r web/build/* release-package/web/build/
-        find . -maxdepth 1 -mindepth 1 ! -name 'web' -exec cp -r {} release-package/ \;
+        mkdir -p evolent_skills/web/build
+        cp -r web/build/* evolent_skills/web/build/
+        find . -maxdepth 1 -mindepth 1 ! -name 'web' ! -name '.git' ! -name '.github' -exec cp -r {} evolent_skills/ \;
 
     - name: Zip the release package
       run: |
-        cd release-package
+        cd evolent_skills
         zip -r ../evolent_skills.zip .
         cd ..
-
-    - name: Get the current date and time
-      id: date
-      run: echo "RELEASE_TAG=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
     - name: Create GitHub Release
       id: create_release
@@ -45,8 +41,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ env.RELEASE_TAG }}
-        release_name: "Release - ${{ env.RELEASE_TAG }}"
+        tag_name: ${{ github.ref_name }}
+        release_name: ${{ github.ref_name }}
         draft: false
         prerelease: false
 
