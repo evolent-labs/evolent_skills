@@ -23,9 +23,15 @@ jobs:
         pnpm install
         pnpm run build
 
+    - name: Prepare release package
+      run: |
+        mkdir release-package
+        cp -r web/build release-package/web/build
+        find . -maxdepth 1 -mindepth 1 ! -name 'web' ! -name '.git' ! -name '.github' ! -name 'release-package' -exec cp -r {} release-package/ \;
+
     - name: Zip the release package
       run: |
-        cd evolent_skills
+        cd release-package
         zip -r ../evolent_skills.zip .
         cd ..
 
