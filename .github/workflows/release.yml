@@ -1,0 +1,56 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install pnpm
+      run: |
+        npm install -g pnpm
+
+    - name: Install dependencies and build UI
+      run: |
+        cd web
+        pnpm install
+        pnpm run build
+
+    - name: Copy build files to release directory
+      run: |
+        mkdir -p release-package/web/build
+        cp -r web/build/* release-package/web/build/
+
+    - name: Zip the release package
+      run: |
+        cd release-package
+        zip -r ../evolent_skills.zip .
+        cd ..
+
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.sha }}
+        release_name: Release ${{ github.sha }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./evolent_skills.zip
+        asset_name: evolent_skills.zip
+        asset_content_type: application/zip
