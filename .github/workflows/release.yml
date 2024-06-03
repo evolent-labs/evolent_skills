@@ -25,14 +25,14 @@ jobs:
 
     - name: Prepare release package
       run: |
-        mkdir -p release-package/web/build
-        cp -r web/build/* release-package/web/build/
-        find . -maxdepth 1 -mindepth 1 ! -name 'web' ! -name '.git' ! -name '.github' ! -name 'release-package' -exec cp -r {} release-package/ \;
+        mkdir -p release-package/evolent_skills/web/build
+        cp -r web/build/* release-package/evolent_skills/web/build/
+        find . -maxdepth 1 -mindepth 1 ! -name 'web' ! -name '.git' ! -name '.github' ! -name 'release-package' -exec cp -r {} release-package/evolent_skills/ \;
 
     - name: Zip the release package
       run: |
         cd release-package
-        zip -r ../evolent_skills.zip .
+        zip -r ../evolent_skills.zip evolent_skills
         cd ..
 
     - name: Create GitHub Release
