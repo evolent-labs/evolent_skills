@@ -11,3 +11,9 @@ local function getSkillXp(skillName)
 end
 
 exports('getSkillXp', getSkillXp)
+
+local function getAllSkills()
+    return lib.callback.await('evolent_skills:server:getAllSkills')
+end
+
+exports('getAllSkills', getAllSkills)
