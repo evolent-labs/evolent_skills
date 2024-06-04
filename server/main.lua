@@ -14,6 +14,26 @@ end
 
 local onLoadedEvent = initializeFramework()
 
+local function getPlayerSkills(source)
+    local skillsData = {}
+    local skillsCache = skills.getAllSkills(source)
+    for skillName, skillInfo in pairs(skillsCache) do
+        local skillConfig = conf.Skills[skillName]
+        if skillConfig then
+            local minXp, maxXp = utils.getXpRangeForLevel(skillInfo.level, skillName)
+            skillsData[#skillsData + 1] = {
+                label = skillConfig.label,
+                level = skillInfo.level,
+                xp = skillInfo.xp,
+                levelData = { minXp = minXp, maxXp = math.ceil(maxXp) },
+                icon = skillConfig.icon,
+                color = skillConfig.color
+            }
+        end
+    end
+    return skillsData
+end
+
 AddEventHandler('onServerResourceStart', function(resourceName)
     if resourceName ~= GetCurrentResourceName() then return end
 
@@ -55,14 +75,7 @@ lib.callback.register('evolent_skills:server:getSkills', function(source)
     return skillsData
 end)
 
-lib.callback.register('evolent_skills:server:getSkillLevel', function(source, skillName)
-    return skills.getSkillLevel(source, skillName)
-end)
-
-lib.callback.register('evolent_skills:server:getSkillXp', function(source, skillName)
-    return skills.getSkillXp(source, skillName)
-end)
-
-lib.callback.register('evolent_skills:server:getAllSkills', function(source)
-    return skills.getAllSkills(source)
-end)
+lib.callback.register('evolent_skills:server:getSkills', getPlayerSkills)
+lib.callback.register('evolent_skills:server:getSkillLevel', skills.getSkillLevel)
+lib.callback.register('evolent_skills:server:getSkillXp', skills.getSkillXp)
+lib.callback.register('evolent_skills:server:getAllSkills', skills.getAllSkills)
