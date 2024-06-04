@@ -39,8 +39,11 @@ jobs:
     - name: Generate release notes
       id: generate_notes
       run: |
-        echo "RELEASE_NOTES=$(git log $(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1))..$(git describe --tags --abbrev=0) --pretty=format:'* %h - %s' | grep -v 'Merge branch' | sed ':a;N;$!ba;s/\n/\\n/g')" >> $GITHUB_ENV
-        
+        RELEASE_NOTES=$(git log $(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1))..$(git describe --tags --abbrev=0) --pretty=format:'* %h - %s' | grep -v 'Merge branch')
+        echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+        echo "$RELEASE_NOTES" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+
     - name: Create GitHub Release
       id: create_release
       uses: actions/create-release@v1
