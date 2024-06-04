@@ -5,7 +5,7 @@ local coreObject
 if framework == 'qb' then
     coreObject = exports['qb-core']:GetCoreObject()
 elseif framework == 'esx' then
-    coreObject = exports['esx_core']:getSharedObject()
+    coreObject = exports['es_extended']:getSharedObject()
 end
 
 local fwFunctions = {}
@@ -18,7 +18,7 @@ function fwFunctions.getCharacterIdentifier(source)
         local player = coreObject.Functions.GetPlayer(source)
         charId = player.PlayerData.citizenid
     elseif framework == 'esx' then
-        local player = coreObject.GetPlayerFromIdentifier(source)
+        local player = coreObject.GetPlayerFromId(source)
         charId = player.getIdentifier()
     end
     return charId
