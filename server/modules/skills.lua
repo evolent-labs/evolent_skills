@@ -6,17 +6,15 @@ local conf = require 'config'
 local skills = {}
 local skillsCache = {}
 
----@param functionName string
----@param message string
 local function _warn(functionName, message)
     local resource = GetInvokingResource()
-    warn(string.format("[%s] %s: %s", resource, functionName, message))
+    warn(('[%s] %s: %s'):format(resource, functionName, message))
 end
 
 ---@param source number
 local function isValidSource(source)
     if not DoesPlayerExist(source) then
-        _warn("isValidSource", "Invalid source: " .. tostring(source))
+        _warn("isValidSource", ('Invalid source: %s'):format(tostring(source)))
         return false
     end
     return true
@@ -25,7 +23,7 @@ end
 ---@param skillName string
 local function isValidSkillName(skillName)
     if type(skillName) ~= "string" or conf.Skills[skillName] == nil then
-        _warn("isValidSkillName", "Invalid skill name: " .. tostring(skillName))
+        _warn("isValidSkillName", ('Invalid skill name: %s'):format(tostring(skillName)))
         return false
     end
     return true
@@ -34,7 +32,7 @@ end
 ---@param xpAmount number
 local function isValidXpAmount(xpAmount)
     if type(xpAmount) ~= "number" or xpAmount < 0 then
-        _warn("isValidXpAmount", "Invalid XP amount: " .. tostring(xpAmount))
+        _warn("isValidXpAmount", ('Invalid XP amount: %s'):format(tostring(xpAmount)))
         return false
     end
     return true
@@ -43,7 +41,18 @@ end
 ---@param level number
 local function isValidLevel(level)
     if type(level) ~= "number" or level <= 0 then
-        _warn("isValidLevel", "Invalid level: " .. tostring(level))
+        _warn("isValidLevel", ('Invalid level: %s'):format(tostring(level)))
+        return false
+    end
+    return true
+end
+
+---@param skillName string
+---@param level number
+local function isLevelInRange(skillName, level)
+    local xpTable = utils.xpTables[skillName]
+    if level > #xpTable then
+        _warn('isLevelInRange', ('Level %d is out of range for skill %s'):format(level, skillName))
         return false
     end
     return true
@@ -121,17 +130,10 @@ function skills.setSkillLevel(source, skillName, level)
     if not isValidSource(source) then return end
     if not isValidSkillName(skillName) then return end
     if not isValidLevel(level) then return end
+    if not isLevelInRange(skillName, level) then return end
 
     local charId = framework.getCharacterIdentifier(source)
     local xpTable = utils.xpTables[skillName]
-
-    if level > #xpTable then
-        return lib.notify(source, {
-            title = 'Error',
-            description = 'Level is out of range for this skill.',
-            type = 'error'
-        })
-    end
 
     local xpAmount = (level > 1) and (xpTable[level - 1]) or 0
     db.setXp(charId, skillName, xpAmount)
