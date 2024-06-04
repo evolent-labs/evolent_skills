@@ -12,11 +12,6 @@ end
 
 local onLoadedEvent = framework == 'qb' and 'QBCore:Server:OnPlayerLoaded' or 'esx:playerLoaded'
 
-RegisterNetEvent(onLoadedEvent, function()
-    ---@diagnostic disable-next-line
-    skills.playerLoaded(source)
-end)
-
 AddEventHandler('onServerResourceStart', function(resourceName)
     if resourceName ~= GetCurrentResourceName() then return end
 
@@ -27,6 +22,11 @@ AddEventHandler('onServerResourceStart', function(resourceName)
         ---@diagnostic disable-next-line
         skills.playerLoaded(tonumber(activePlayers[i]))
     end
+end)
+
+RegisterNetEvent(onLoadedEvent, function()
+    ---@diagnostic disable-next-line
+    skills.playerLoaded(source)
 end)
 
 lib.callback.register('evolent_skills:server:getSkills', function(source)
