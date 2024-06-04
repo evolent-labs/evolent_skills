@@ -3,14 +3,16 @@ local utils = require 'server.modules.utils'
 local conf = require 'config'
 local db = require 'server.modules.db'
 
-local framework = conf.Framework
-
-local validFrameworks = { qb = true, esx = true }
-if not validFrameworks[framework] then
-    error(('Framework \'%s\' is not supported.'):format(framework))
+local function initializeFramework()
+    local validFrameworks = { qb = true, esx = true }
+    local framework = string.lower(conf.Framework)
+    if not validFrameworks[framework] then
+        error(('Framework \'%s\' is not supported.'):format(framework))
+    end
+    return framework == 'qb' and 'QBCore:Server:OnPlayerLoaded' or 'esx:playerLoaded'
 end
 
-local onLoadedEvent = framework == 'qb' and 'QBCore:Server:OnPlayerLoaded' or 'esx:playerLoaded'
+local onLoadedEvent = initializeFramework()
 
 AddEventHandler('onServerResourceStart', function(resourceName)
     if resourceName ~= GetCurrentResourceName() then return end
