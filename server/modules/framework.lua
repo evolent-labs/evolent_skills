@@ -1,27 +1,25 @@
 local conf = require 'config'
 
-local framework = conf.Framework
-local coreObject
-if framework == 'qb' then
-    coreObject = exports['qb-core']:GetCoreObject()
-elseif framework == 'esx' then
-    coreObject = exports['es_extended']:getSharedObject()
-end
+local function createFrameworkAdapter(framework)
+    local adapter = {}
 
-local fwFunctions = {}
-
----@param source number
----@return string charId
-function fwFunctions.getCharacterIdentifier(source)
-    local charId
     if framework == 'qb' then
-        local player = coreObject.Functions.GetPlayer(source)
-        charId = player.PlayerData.citizenid
+        local coreObject = exports['qb-core']:GetCoreObject()
+        function adapter.getCharacterIdentifier(source)
+            local player = coreObject.Functions.GetPlayer(source)
+            return player and player.PlayerData.citizenid or nil
+        end
     elseif framework == 'esx' then
-        local player = coreObject.GetPlayerFromId(source)
-        charId = player.getIdentifier()
+        local coreObject = exports['es_extended']:getSharedObject()
+        function adapter.getCharacterIdentifier(source)
+            local player = coreObject.GetPlayerFromId(source)
+            return player and player.getIdentifier() or nil
+        end
     end
-    return charId
+
+    return adapter
 end
+
+local fwFunctions = createFrameworkAdapter(conf.Framework)
 
 return fwFunctions
