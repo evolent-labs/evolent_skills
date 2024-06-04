@@ -12,10 +12,11 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
     - name: Install pnpm
-      run: |
-        npm install -g pnpm
+      run: npm install -g pnpm
 
     - name: Install dependencies and build UI
       run: |
@@ -35,6 +36,11 @@ jobs:
         zip -r ../evolent_skills.zip evolent_skills
         cd ..
 
+    - name: Generate release notes
+      id: generate_notes
+      run: |
+        echo "RELEASE_NOTES=$(git log $(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1))..$(git describe --tags --abbrev=0) --pretty=format:'* %h - %s' | grep -v 'Merge branch' | sed ':a;N;$!ba;s/\n/\\n/g')" >> $GITHUB_ENV
+        
     - name: Create GitHub Release
       id: create_release
       uses: actions/create-release@v1
@@ -43,6 +49,7 @@ jobs:
       with:
         tag_name: ${{ github.ref_name }}
         release_name: ${{ github.ref_name }}
+        body: ${{ env.RELEASE_NOTES }}
         draft: false
         prerelease: false
 
