@@ -9,6 +9,10 @@ local function createFrameworkAdapter(framework)
             local player = coreObject.Functions.GetPlayer(source)
             return player and player.PlayerData.citizenid or nil
         end
+    elseif framework == 'qbx' then
+        function adapter.getCharacterIdentifier(source)
+            return exports.qbx_core:GetPlayer(source)?.PlayerData?.citizenid
+        end
     elseif framework == 'esx' then
         local coreObject = exports['es_extended']:getSharedObject()
         function adapter.getCharacterIdentifier(source)

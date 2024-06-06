@@ -13,7 +13,7 @@ end
 
 ---@param source number
 local function isValidSource(source)
-    if not DoesPlayerExist(source) then
+    if not DoesPlayerExist(tostring(source)) then
         _warn("isValidSource", ('Invalid source: %s'):format(tostring(source)))
         return false
     end
@@ -75,6 +75,7 @@ function skills.addXp(source, skillName, xpAmount)
     if not isValidXpAmount(xpAmount) then return end
 
     local charId = framework.getCharacterIdentifier(source)
+    if not charId then return end
     db.addXp(charId, skillName, xpAmount)
     updateSkillCache(source, skillName, xpAmount)
 end
@@ -90,6 +91,7 @@ function skills.removeXp(source, skillName, xpAmount)
     if not isValidXpAmount(xpAmount) then return end
 
     local charId = framework.getCharacterIdentifier(source)
+    if not charId then return end
 
     local currentXp = skillsCache[source][skillName].xp
     local newXpAmount = math.max(0, currentXp - xpAmount)
@@ -133,6 +135,7 @@ function skills.setSkillLevel(source, skillName, level)
     if not isLevelInRange(skillName, level) then return end
 
     local charId = framework.getCharacterIdentifier(source)
+    if not charId then return end
     local xpTable = utils.xpTables[skillName]
 
     local xpAmount = (level > 1) and (xpTable[level - 1]) or 0
@@ -149,6 +152,7 @@ function skills.resetSkill(source, skillName)
     if not isValidSkillName(skillName) then return end
 
     local charId = framework.getCharacterIdentifier(source)
+    if not charId then return end
     db.resetSkill(charId, skillName)
     skillsCache[source][skillName] = { xp = 0, level = 1 }
 end
@@ -157,7 +161,7 @@ exports('resetSkill', skills.resetSkill)
 
 ---@param source number
 function skills.getAllSkills(source)
-    if not isValidSource(source) then return end
+    if not isValidSource(source) then return {} end
 
     return skillsCache[source] or {}
 end

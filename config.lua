@@ -1,12 +1,13 @@
 ---@class Skill
 ---@field label string
 ---@field baseXp number
+---@field nextLevelMultiplier number
 ---@field maxLevel number
 ---@field icon string
 ---@field color string
 
 return {
-    ---@type 'qb'|'esx'
+    ---@type 'qb'|'qbx'|'esx'
     Framework = 'qb',
 
     ---@type string
