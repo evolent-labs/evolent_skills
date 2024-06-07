@@ -188,10 +188,12 @@ function skills.playerLoaded(source)
         local playerSkills = db.getPlayerSkills(charId)
         local playerSkillSet = {}
         for _, pSkillData in ipairs(playerSkills) do
-            playerSkillSet[pSkillData.skill_name] = {
-                xp = pSkillData.xp,
-                level = utils.calculateLevel(pSkillData.xp, pSkillData.skill_name)
-            }
+            if conf.Skills[pSkillData.skill_name] then
+                playerSkillSet[pSkillData.skill_name] = {
+                    xp = pSkillData.xp,
+                    level = utils.calculateLevel(pSkillData.xp, pSkillData.skill_name)
+                }
+            end
         end
         skillsCache[source] = playerSkillSet
     end
