@@ -4,12 +4,12 @@ local conf = require 'config'
 local db = require 'server.modules.db'
 
 local function initializeFramework()
-    local validFrameworks = { qb = true, esx = true }
+    local validFrameworks = { qb = true, qbx = true, esx = true }
     local framework = string.lower(conf.Framework)
     if not validFrameworks[framework] then
         error(('Framework \'%s\' is not supported.'):format(framework))
     end
-    return framework == 'qb' and 'QBCore:Server:OnPlayerLoaded' or 'esx:playerLoaded'
+    return (framework == 'qb' or framework == 'qbx') and 'QBCore:Server:OnPlayerLoaded' or 'esx:playerLoaded'
 end
 
 local onLoadedEvent = initializeFramework()

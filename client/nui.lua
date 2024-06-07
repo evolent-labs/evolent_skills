@@ -16,7 +16,7 @@ RegisterCommand('skills', function()
     })
 
     SetNuiFocus(visible, visible)
-end)
+end, false)
 
 RegisterNUICallback('hideSkills', function(_, cb)
     visible = false

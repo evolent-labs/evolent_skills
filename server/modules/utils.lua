@@ -69,7 +69,7 @@ function utils.validateSkillCommand(source, skill, target, value, isLevel)
         return false
     end
 
-    if not DoesPlayerExist(target) then
+    if not DoesPlayerExist(tostring(target)) then
         lib.notify(source, {
             title = 'Skills',
             description = ('Player with the ID of %d does not exist'):format(target),
