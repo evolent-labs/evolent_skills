@@ -6,8 +6,7 @@ local function createFrameworkAdapter(framework)
     if framework == 'qb' then
         local coreObject = exports['qb-core']:GetCoreObject()
         function adapter.getCharacterIdentifier(source)
-            local player = coreObject.Functions.GetPlayer(source)
-            return player and player.PlayerData.citizenid or nil
+            return coreObject.Functions.GetPlayer(source)?.PlayerData?.citizenid
         end
     elseif framework == 'qbx' then
         function adapter.getCharacterIdentifier(source)

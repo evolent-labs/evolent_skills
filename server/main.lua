@@ -9,10 +9,7 @@ local function initializeFramework()
     if not validFrameworks[framework] then
         error(('Framework \'%s\' is not supported.'):format(framework))
     end
-    return
-        (framework == 'qb' and 'QBCore:Server:OnPlayerLoaded') or
-        (framework == 'qbx' and 'QBCore:Server:OnPlayerLoaded') or
-        'esx:playerLoaded'
+    return (framework == 'qb' or framework == 'qbx') and 'QBCore:Server:OnPlayerLoaded' or 'esx:playerLoaded'
 end
 
 local onLoadedEvent = initializeFramework()
