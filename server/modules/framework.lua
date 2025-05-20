@@ -19,7 +19,7 @@ local function createFrameworkAdapter(framework)
             return player and player.getIdentifier() or nil
         end
     elseif framework == 'ox' then
-        local coreObject = require "@ox_core/lib/init.lua"
+        local coreObject = require "@ox_core.lib.init"
 
         function adapter.getCharacterIdentifier(source)
             local player = coreObject.GetPlayer(source)
