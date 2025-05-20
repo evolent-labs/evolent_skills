@@ -1,6 +1,6 @@
 # Evolent Skills
 
-![Evolent Skills Banner](https://i.ibb.co/Wvjy09R/skills.png)
+![Evolent Skills Banner](https://i.ibb.co/7JKBf1Sz/image.png)
 
 Evolent Skills is an advanced script for managing player skills in your FiveM server, supporting both QBCore and ESX frameworks.
 
