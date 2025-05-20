@@ -7,7 +7,7 @@
 ---@field color string
 
 return {
-    ---@type 'qb'|'qbx'|'esx'
+    ---@type 'qb'|'qbx'|'esx'|'ox'
     Framework = 'qb',
 
     ---@type string

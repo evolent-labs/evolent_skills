@@ -51,30 +51,6 @@ RegisterNetEvent(onLoadedEvent, function()
     skills.playerLoaded(source)
 end)
 
-lib.callback.register('evolent_skills:server:getSkills', function(source)
-    local skillsData = {}
-    local skillsCache = skills.getAllSkills(source)
-    for skillName, skillInfo in pairs(skillsCache) do
-        local skillConfig = conf.Skills[skillName]
-        if skillConfig then
-            local minXp, maxXp = utils.getXpRangeForLevel(skillInfo.level, skillName)
-            local levelData = {
-                minXp = minXp,
-                maxXp = math.ceil(maxXp)
-            }
-            table.insert(skillsData, {
-                label = skillConfig.label,
-                level = skillInfo.level,
-                xp = skillInfo.xp,
-                levelData = levelData,
-                icon = skillConfig.icon,
-                color = skillConfig.color
-            })
-        end
-    end
-    return skillsData
-end)
-
 lib.callback.register('evolent_skills:server:getSkills', getPlayerSkills)
 lib.callback.register('evolent_skills:server:getSkillLevel', skills.getSkillLevel)
 lib.callback.register('evolent_skills:server:getSkillXp', skills.getSkillXp)
