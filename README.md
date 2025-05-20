@@ -8,7 +8,7 @@ Evolent Skills is an advanced script for managing player skills in your FiveM se
 
 - Dynamic skill leveling system
 - Configurable skill parameters
-- Supports multiple frameworks (QBCore and ESX)
+- Supports multiple frameworks (QBCore, QBX, ESX, OX)
 - Easy integration with existing systems
 - Detailed logging and error handling
 
